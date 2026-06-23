@@ -9,9 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
-
 </head>
 
 <body class="bg-white font-sans antialiased text-[#1e293b]">
@@ -119,17 +117,155 @@
       </div>
 
       <div class="flex items-center gap-4 sm:gap-5 ml-auto xl:ml-0 xl:order-3">
-        <a href="#"
+        <!-- Search Icon -->
+        <a href="#" id="searchBtn"
           class="text-[#1e293b] text-[1.25rem] transition-all duration-200 hover:scale-105 hover:text-[#00a651]">
           <i class="bi bi-search"></i>
         </a>
 
-        <a href="#"
-          class="relative text-[#1e293b] text-[1.25rem] transition-all duration-200 hover:scale-105 hover:text-[#00a651] flex items-center justify-center">
+        <!-- Search Popup -->
+        <div id="searchPopup" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+
+          <div class="bg-white p-6 rounded-lg w-[90%] max-w-xl relative">
+
+            <!-- Close Button -->
+            <button id="closeSearch" class="absolute top-3 right-4 text-2xl font-bold">
+              ×
+            </button>
+
+            <h3 class="text-xl font-bold mb-4">Search</h3>
+
+            <input type="text" placeholder="Search here..."
+              class="w-full border border-gray-300 px-4 py-3 rounded-lg outline-none focus:border-green-500">
+
+          </div>
+
+        </div>
+        <script>
+          const searchBtn = document.getElementById("searchBtn");
+          const searchPopup = document.getElementById("searchPopup");
+          const closeSearch = document.getElementById("closeSearch");
+
+          searchBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            searchPopup.classList.remove("hidden");
+            searchPopup.classList.add("flex");
+          });
+
+          closeSearch.addEventListener("click", function () {
+            searchPopup.classList.add("hidden");
+            searchPopup.classList.remove("flex");
+          });
+
+          // Close when clicking outside
+          searchPopup.addEventListener("click", function (e) {
+            if (e.target === searchPopup) {
+              searchPopup.classList.add("hidden");
+              searchPopup.classList.remove("flex");
+            }
+          });
+        </script>
+
+        <a href="#" id="cartBtn"
+          class="relative text-[#1e293b] text-[30px] transition-all duration-200 hover:scale-110 hover:text-[#00a651] flex items-center justify-center">
+
           <i class="bi bi-cart3 font-bold"></i>
+
           <span
-            class="absolute top-[-6px] right-[-10px] bg-[#ff9f43] text-white text-[0.65rem] font-bold px-1.5 py-0.5 rounded-full shadow-sm leading-none">0</span>
+            class="absolute top-[-6px] right-[-12px] bg-[#ff9f43] text-white text-[0.65rem] font-bold px-1.5 py-0.5 rounded-full shadow-sm leading-none">
+            0
+          </span>
         </a>
+
+        <!-- Overlay -->
+        <div id="cartOverlay" class="fixed inset-0 bg-black/50 hidden z-50">
+
+          <!-- Cart Popup -->
+          <div id="cartBox"
+            class="absolute top-0 right-0 h-full w-[380px] bg-white shadow-2xl p-8 transform translate-x-full transition-all duration-300">
+
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-xl font-bold">Shopping Cart</h3>
+
+              <button id="closeCart" class="text-3xl font-bold text-gray-500 hover:text-red-500">
+                &times;
+              </button>
+            </div>
+
+            <!-- Empty Cart Text -->
+            <p class="text-gray-600 text-lg mb-8">
+              Your cart is empty
+            </p>
+
+            <hr class="mb-8">
+
+            <!-- Subtotal -->
+            <div class="flex justify-between items-center mb-8">
+              <span class="font-bold text-[22px] text-gray-700">
+                Subtotal:
+              </span>
+
+              <span class="font-bold text-[22px] text-gray-700">
+                Tk 0.00
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <button
+              class="w-full bg-[#1d1d1f] text-white py-4 font-bold uppercase tracking-wider mb-4 hover:bg-black transition">
+              View Cart
+            </button>
+
+            <button
+              class="w-full bg-[#00a651] text-white py-4 font-bold uppercase tracking-wider hover:bg-green-700 transition">
+              Checkout
+            </button>
+
+          </div>
+        </div>
+
+        <script>
+
+          const cartBtn = document.getElementById("cartBtn");
+          const cartOverlay = document.getElementById("cartOverlay");
+          const cartBox = document.getElementById("cartBox");
+          const closeCart = document.getElementById("closeCart");
+
+          // Open Cart
+          cartBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            cartOverlay.classList.remove("hidden");
+
+            setTimeout(() => {
+              cartBox.classList.remove("translate-x-full");
+            }, 10);
+          });
+
+          // Close Cart Button
+          closeCart.addEventListener("click", function () {
+            cartBox.classList.add("translate-x-full");
+
+            setTimeout(() => {
+              cartOverlay.classList.add("hidden");
+            }, 300);
+          });
+
+          // Click Outside Close
+          cartOverlay.addEventListener("click", function (e) {
+
+            if (e.target === cartOverlay) {
+
+              cartBox.classList.add("translate-x-full");
+
+              setTimeout(() => {
+                cartOverlay.classList.add("hidden");
+              }, 300);
+            }
+          });
+
+        </script>
 
         <button id="menuToggler"
           class="xl:hidden bg-[#00a651] text-white w-10 h-10 rounded-full flex items-center justify-center border-none transition-all duration-200 hover:bg-[#008540] hover:scale-105 focus:outline-none"
@@ -272,8 +408,7 @@
 
           <div class="w-full lg:w-5/12 order-2 lg:order-2">
             <div class="features-img flex justify-center">
-              <img class="w-full max-w-sm lg:max-w-full h-auto object-contain"
-                src="https://suxnix-dev.myshopify.com/cdn/shop/files/features_img_00ec7c4b-95e1-4661-b180-7c2bd4db7ebb.png?v=1736613975"
+              <img class="w-full max-w-sm lg:max-w-full h-auto object-contain" src="/assert/img/third-sec-bg.png"
                 alt="Features Display" loading="lazy">
             </div>
           </div>
@@ -383,7 +518,8 @@
             <div
               class="absolute w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] bg-[radial-gradient(#b7df9b_2px,transparent_2px)] bg-[length:18px_18px]">
             </div>
-            <img src="/assert/img/features_product_shape01.png" class="absolute left-0 bottom-10 z-20" alt="leaves">
+            <img src="/assert/img/features_product_shape01.png" class="absolute left-0 bottom-10 z-20 ]"
+              alt="leaves">
             <img src="/assert/img/features_product01.png"
               class="relative z-30 max-w-[280px] md:max-w-[350px] lg:max-w-[420px]" alt="Serious Mass">
           </div>
@@ -449,7 +585,8 @@
             <div
               class="absolute w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] bg-[radial-gradient(#b7df9b_2px,transparent_2px)] bg-[length:18px_18px]">
             </div>
-            <img src="/assert/img/features_product_shape02.png" class="absolute right-0 bottom-10 z-20" alt="leaves">
+            <img src="/assert/img/features_product_shape02.png" class="absolute right-0 bottom-10 z-20 "
+              alt="leaves">
             <img src="/assert/img/features_product02.png"
               class="relative z-30 max-w-[280px] md:max-w-[350px] lg:max-w-[420px]" alt="Protein Whey">
           </div>
@@ -460,7 +597,8 @@
             <div
               class="absolute w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] bg-[radial-gradient(#b7df9b_2px,transparent_2px)] bg-[length:18px_18px]">
             </div>
-            <img src="/assert/img/features_product_shape03.png" class="absolute left-0 bottom-10 z-20" alt="leaves">
+            <img src="/assert/img/features_product_shape03.png" class="absolute left-0 bottom-10 z-20"
+              alt="leaves">
             <img src="/assert/img/features_product03.png"
               class="relative z-30 max-w-[280px] md:max-w-[350px] lg:max-w-[420px]" alt="Max Mass 3xl">
           </div>
@@ -498,65 +636,1244 @@
       </div>
     </section>
     <!-- Home shop area -->
-    <section id="home-shop-area">
-      <div class="container mx-auto">
-        
-      </div>  
+    <section id="home-shop-area" class="relative" style="padding-top: 100px; padding-bottom: 100px;">
+      <div class="bg-gray-50 py-12 px-4 flex flex-col items-center justify-center relative">
+
+        <div class="max-w-7xl w-full relative px-4">
+
+          <div class="swiper home-shop-swiper w-full">
+            <div class="swiper-wrapper py-4 lg:grid lg:grid-cols-3 xl:grid-cols-4 lg:gap-6">
+
+              <div class="swiper-slide h-auto">
+                <div
+                  class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center justify-between h-full">
+                  <div class="relative w-full aspect-square flex items-center justify-center mb-6 overflow-hidden">
+                    <div class="absolute bottom-0 w-48 h-24 bg-gray-300 rounded-b-full"></div>
+                    <img src="/assert/img/home_shop_thumb01.png" alt="Serious Mass"
+                      class="relative z-10 w-40 h-40 object-contain drop-shadow-md ">
+                  </div>
+                  <div class="w-full flex flex-col items-center">
+                    <h3
+                      class="font-bold text-gray-800 uppercase tracking-wide text-sm md:text-base min-h-[48px] flex items-center">
+                      Antiaging and Longevity
+                    </h3>
+                    <p class="text-gray-900 font-extrabold text-lg mt-2 self-start pl-2">Tk 49.99</p>
+                    <div class="flex items-center self-start pl-2 mt-3 text-orange-400 text-sm">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                      <span class="text-gray-400 text-xs ml-2">(30)</span>
+                    </div>
+                  </div>
+                  <div class="w-full flex items-center space-x-3 mt-6">
+                    <button
+                      class="bg-[#00a651] hover:bg-[#008540] text-white p-3 rounded-full transition-colors flex items-center justify-center">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                    <button
+                      class="flex-1 flex items-center justify-center px-4 py-2 border border-gray-200 rounded-full bg-[#00A651] text-white font-bold hover:bg-[#FCAA68] transition-colors duration-300">
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="swiper-slide h-auto">
+                <div
+                  class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center justify-between h-full">
+                  <div class="relative w-full aspect-square flex items-center justify-center mb-6 overflow-hidden">
+                    <div class="absolute bottom-0 w-48 h-24 bg-[#99d76c] rounded-b-full"></div>
+                    <img src="/assert/img/home_shop_thumb02.png" alt="Amino Energy"
+                      class="relative z-10 w-40 h-40 object-contain drop-shadow-md ">
+                  </div>
+                  <div class="w-full flex flex-col items-center">
+                    <h3
+                      class="font-bold text-gray-800 uppercase tracking-wide text-sm md:text-base min-h-[48px] flex items-center">
+                      Box Full of Muscles
+                    </h3>
+                    <p class="text-gray-900 font-extrabold text-lg mt-2 self-start pl-2">Tk 85.99</p>
+                    <div class="flex items-center self-start pl-2 mt-3 text-orange-400 text-sm">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                      <span class="text-gray-400 text-xs ml-2">(30)</span>
+                    </div>
+                  </div>
+                  <div class="w-full flex items-center space-x-3 mt-6">
+                    <button
+                      class="bg-[#00a651] hover:bg-[#008540] text-white p-3 rounded-full transition-colors flex items-center justify-center">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                    <button
+                      class="flex-1 flex items-center justify-center px-4 py-2 border border-gray-200 rounded-full bg-[#00A651] text-white font-bold hover:bg-[#FCAA68] transition-colors duration-300">
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="swiper-slide h-auto">
+                <div
+                  class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center justify-between h-full">
+                  <div class="relative w-full aspect-square flex items-center justify-center mb-6 overflow-hidden">
+                    <div class="absolute bottom-0 w-48 h-24 bg-[#a579b6] rounded-b-full"></div>
+                    <img src="/assert/img/home_shop_thumb03.png" alt="Protein Whey"
+                      class="relative z-10 w-40 h-40 object-contain drop-shadow-md ">
+                  </div>
+                  <div class="w-full flex flex-col items-center">
+                    <h3
+                      class="font-bold text-gray-800 uppercase tracking-wide text-sm md:text-base min-h-[48px] flex items-center">
+                      Protein Powder 2KG
+                    </h3>
+                    <p class="text-gray-900 font-extrabold text-lg mt-2 self-start pl-2">Tk 85.99</p>
+                    <div class="flex items-center self-start pl-2 mt-3 text-orange-400 text-sm">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                      <span class="text-gray-400 text-xs ml-2">(30)</span>
+                    </div>
+                  </div>
+                  <div class="w-full flex items-center space-x-3 mt-6">
+                    <button
+                      class="bg-[#00a651] hover:bg-[#008540] text-white p-3 rounded-full transition-colors flex items-center justify-center">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                    <button
+                      class="flex-1 flex items-center justify-center px-4 py-2 border border-gray-200 rounded-full bg-[#00A651] text-white font-bold hover:bg-[#FCAA68] transition-colors duration-300">
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="swiper-slide h-auto">
+                <div
+                  class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center justify-between h-full">
+                  <div class="relative w-full aspect-square flex items-center justify-center mb-6 overflow-hidden">
+                    <div class="absolute bottom-0 w-48 h-24 bg-[#219fd6] rounded-b-full"></div>
+                    <img src="/assert/img/home_shop_thumb04.png" alt="Whey Gold"
+                      class="relative z-10 w-40 h-40 object-contain drop-shadow-mb">
+                  </div>
+                  <div class="w-full flex flex-col items-center">
+                    <h3
+                      class="font-bold text-gray-800 uppercase tracking-wide text-sm md:text-base min-h-[48px] flex items-center">
+                      Whey Protein Powder
+                    </h3>
+                    <p class="text-gray-900 font-extrabold text-lg mt-2 self-start pl-2">Tk 49.99</p>
+                    <div class="flex items-center self-start pl-2 mt-3 text-orange-400 text-sm">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star-half-stroke"></i>
+                      <span class="text-gray-400 text-xs ml-2">(30)</span>
+                    </div>
+                  </div>
+                  <div class="w-full flex items-center space-x-3 mt-6">
+                    <button
+                      class="bg-[#00a651] hover:bg-[#008540] text-white p-3 rounded-full transition-colors flex items-center justify-center">
+                      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                    <button
+                      class="flex-1 flex items-center justify-center px-4 py-2 border border-gray-200 rounded-full bg-[#00A651] text-white font-bold hover:bg-[#FCAA68] transition-colors duration-300">
+                      Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="swiper-pagination home-shop-pagination mt-6 hidden sm:flex justify-center gap-2"></div>
+          </div>
+
+          <div
+            class="swiper-button-prev-custom absolute left-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 hover:bg-[#00a651] hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all z-20 lg:hidden">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+          <div
+            class="swiper-button-next-custom absolute right-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 hover:bg-[#00a651] hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md transition-all z-20 lg:hidden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- End home shop AREA -->
+    <!-- Video Area -->
+    <div class="relative bg-cover bg-center bg-no-repeat py-[100px] flex items-center justify-center min-h-[600px] "
+      style="background-image: url('https://suxnix-dev.myshopify.com/cdn/shop/files/video_bg_8112a5ce-2dd0-45f9-ac62-fd4d1b132944.jpg?v=1737135174');"
+      id="template--18217805119545__video_6Mxnk9">
+
+      <div class="absolute inset-0 bg-[#090909] opacity-80"></div>
+
+      <div class="relative z-10 container mx-auto px-4 flex justify-center">
+        <div class="video-btn">
+          <a href="https://www.youtube.com/watch?v=HQfF5XRVXjU"
+            class="popup-video relative flex items-center justify-center w-20 h-20 bg-white text-[#00a651] rounded-full shadow-lg transition-transform duration-300 hover:scale-110 group animate-pulse">
+
+            <span class="absolute inset-0 rounded-full bg-white opacity-25 animate-ping"></span>
+
+            <i
+              class="fa-solid fa-play text-2xl relative z-10 ml-1 transition-colors duration-300 group-hover:text-[#008540]"></i>
+          </a>
+        </div>
+        <div
+          class="hidden md:block absolute top-[280px] left-[-60px] lg:left-[-120px] z-[-1] max-w-[80px] lg:max-w-full">
+          <img
+            src="//suxnix-dev.myshopify.com/cdn/shop/files/video_shape01_c7268870-bd95-4dca-a7ce-141f63bc7cd0.png?v=1737135573"
+            alt="left shape" width="136" height="131" loading="lazy" class="w-full h-auto">
+        </div>
+
+        <div
+          class="hidden md:block absolute top-[200px] right-[-60px] lg:right-[-120px] z-[-1] max-w-[80px] lg:max-w-full"
+          ]>
+          <img
+            src="//suxnix-dev.myshopify.com/cdn/shop/files/video_shape02_0d75be31-08e5-4c25-bc04-c50f7d2c90fd.png?v=1737135573"
+            alt="right shape" width="133" height="211" loading="lazy" class="w-full h-auto">
+        </div>
+      </div>
+    </div>
+    <!-- End Video Area -->
+    <!-- Fact area -->
+    <section class="py-12 bg-gray-50">
+      <div class="max-w-6xl w-full mx-auto px-4">
+
+        <div
+          class="bg-white border border-gray-100 shadow-sm rounded-xl grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 overflow-hidden">
+
+          <!-- ૧. ACTIVE MEMBERS -->
+          <div class="p-6 sm:p-8 flex items-center space-x-6 justify-center md:justify-start">
+
+            <div class="relative flex items-center justify-center w-20 h-20 flex-shrink-0">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#f3f4f6" stroke-width="2.5"></circle>
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#fca5a5" stroke-width="2.5" stroke-dasharray="100"
+                  stroke-dashoffset="35" stroke-linecap="round" class="stroke-[#fcaa68]"></circle>
+              </svg>
+              <span class="absolute text-sm font-bold text-gray-800">65<span
+                  class="text-xs font-semibold">%</span></span>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-gray-950 text-base sm:text-lg uppercase tracking-wide">Active Members</h4>
+              <p class="text-gray-400 text-xs sm:text-sm mt-0.5 font-medium">Yes we did it asap software</p>
+            </div>
+          </div>
+
+          <!-- ૨. PROJECTS DONE -->
+          <div class="p-6 sm:p-8 flex items-center space-x-6 justify-center md:justify-start">
+
+            <div class="relative flex items-center justify-center w-20 h-20 flex-shrink-0">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#f3f4f6" stroke-width="2.5"></circle>
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#fca5a5" stroke-width="2.5" stroke-dasharray="100"
+                  stroke-dashoffset="10" stroke-linecap="round" class="stroke-[#fcaa68]"></circle>
+              </svg>
+              <span class="absolute text-sm font-bold text-gray-800">90<span
+                  class="text-xs font-semibold">%</span></span>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-950 text-base sm:text-lg uppercase tracking-wide">Projects Done</h4>
+              <p class="text-gray-400 text-xs sm:text-sm mt-0.5 font-medium">Yes we did it asap software</p>
+            </div>
+          </div>
+
+          <!-- ૩. GET REWARDS -->
+          <div class="p-6 sm:p-8 flex items-center space-x-6 justify-center md:justify-start">
+
+            <div class="relative flex items-center justify-center w-20 h-20 flex-shrink-0">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#f3f4f6" stroke-width="2.5"></circle>
+                <circle cx="18" cy="18" r="16" fill="none" stroke="#fca5a5" stroke-width="2.5" stroke-dasharray="100"
+                  stroke-dashoffset="20" stroke-linecap="round" class="stroke-[#fcaa68]"></circle>
+              </svg>
+              <span class="absolute text-sm font-bold text-gray-800">80<span
+                  class="text-xs font-semibold">%</span></span>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-950 text-base sm:text-lg uppercase tracking-wide">Get Rewards</h4>
+              <p class="text-gray-400 text-xs sm:text-sm mt-0.5 font-medium">Yes we did it asap software</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- End Fact Area -->
+    <!-- Ingredient Area -->
+    <section id="ingredient" class="bg-white py-[100px]" data-id="template--18217805119545__ingredients_area_d9dTB6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center justify-center">
+
+
+
+          <div class="lg:col-span-5 flex justify-center items-center relative py-12">
+            <div class="relative w-full max-w-[340px] md:max-w-[400px] aspect-square flex items-center justify-center">
+
+
+              <img src="/assert/img/ingredient-bg-01.png" alt="Green Leaves Background"
+                class="absolute inset-0 w-full h-full object-contain z-0 scale-110 pointer-events-none transform -rotate-12 opacity-90 animate-pulse"
+                style="animation-duration: 4s;">
+
+
+              <img src="/assert/img/ingredient-01.png" alt="Protein Product"
+                class="relative z-10 w-3/4 max-h-[350px] object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.15)] hover:scale-105 transition-transform duration-500">
+
+            </div>
+          </div>
+
+
+          <div class="lg:col-span-7 w-full max-w-3xl mx-auto">
+            <div class="ingredients-items-wrap">
+
+              <div class="text-center lg:text-left mb-10">
+                <p class="text-[#FAA432] font-bold tracking-wider text-sm uppercase mb-2">
+                  .. Increased Energy With Suxnix ..
+                </p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-950 uppercase tracking-tight">
+                  Suxnix Ingredients
+                </h2>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center">
+
+
+                <div
+                  class="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col items-center text-center sm:items-start sm:text-left space-y-4 hover:shadow-md transition-shadow duration-300">
+                  <div
+                    class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-50 flex items-center justify-center">
+                    <img
+                      src="//suxnix-dev.myshopify.com/cdn/shop/files/ingredients_item01_e2ff04ee-49fd-4493-8a4a-3c4ab47d124f.png?v=1737135924"
+                      alt="Helps You Stick To Your Diet" width="auto" height="auto" loading="lazy"
+                      class="object-contain">
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-gray-900 text-lg mb-1.5">
+                      Helps You Stick To Your Diet
+                    </h5>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                      A thing added to something else in order to complete or enhance it.
+                    </p>
+                  </div>
+                </div>
+
+
+                <div
+                  class="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col items-center text-center sm:items-start sm:text-left space-y-4 hover:shadow-md transition-shadow duration-300">
+                  <div
+                    class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-50 flex items-center justify-center">
+                    <img src="//suxnix-dev.myshopify.com/cdn/shop/files/ingredients_item02.png?v=1737135925"
+                      alt="Only 3g Net Carbs In Every Jar" width="auto" height="auto" loading="lazy"
+                      class="object-contain">
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-gray-900 text-lg mb-1.5">
+                      Only 3g Net Carbs In Every Jar
+                    </h5>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                      A thing added to something else in order to complete or enhance it.
+                    </p>
+                  </div>
+                </div>
+
+
+                <div
+                  class="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col items-center text-center sm:items-start sm:text-left space-y-4 hover:shadow-md transition-shadow duration-300">
+                  <div
+                    class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-50 flex items-center justify-center">
+                    <img src="//suxnix-dev.myshopify.com/cdn/shop/files/ingredients_item03.png?v=1737135924"
+                      alt="Ingredients To Fuel Your Body" width="auto" height="auto" loading="lazy"
+                      class="object-contain">
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-gray-900 text-lg mb-1.5">
+                      Ingredients To Fuel Your Body
+                    </h5>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                      A thing added to something else in order to complete or enhance it.
+                    </p>
+                  </div>
+                </div>
+
+
+                <div
+                  class="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col items-center text-center sm:items-start sm:text-left space-y-4 hover:shadow-md transition-shadow duration-300">
+                  <div
+                    class="w-16 h-16 bg-white p-3 rounded-xl shadow-sm border border-gray-50 flex items-center justify-center">
+                    <img src="//suxnix-dev.myshopify.com/cdn/shop/files/ingredients_item04.png?v=1737135925"
+                      alt="Clean Ingredients Only" width="auto" height="auto" loading="lazy" class="object-contain">
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-gray-900 text-lg mb-1.5">
+                      Clean Ingredients Only
+                    </h5>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                      A thing added to something else in order to complete or enhance it.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
 
+    <section id="ingredient" class="bg-white py-12 md:py-[100px] overflow-hidden"
+      data-id="template--18217805119545__formula_area_cFNttG">
+      <div class="container mx-auto px-4 max-w-6xl">
+
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
+
+          <div class="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
+            <div class="space-y-3">
+              <p class="text-[#72b626] font-bold tracking-widest text-xs sm:text-sm uppercase block">
+                .. Suxnix Formula ..
+              </p>
+              <h2
+                class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 uppercase leading-tight tracking-tight">
+                Why We Chose This <br class="hidden sm:block"> Formula
+              </h2>
+            </div>
+
+            <div class="mt-6">
+              <a href="#"
+                class="inline-block bg-[#72b626] text-white font-bold text-xs sm:text-sm uppercase tracking-wider px-6 sm:px-8 py-3 rounded-full shadow-md shadow-green-100 hover:bg-[#619c1f] hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                Know More
+              </a>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-1/2 flex justify-center items-center order-1 lg:order-2">
+            <div
+              class="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[450px] aspect-square flex items-center justify-center">
+
+              <div class="w-full h-full rounded-full overflow-hidden border-4 border-gray-100 shadow-xl bg-gray-50">
+                <img src="/assert/img/formula_img.png" alt="Suxnix Formula" width="auto" height="auto" loading="lazy"
+                  class="w-full h-full object-cover">
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- END INGREDIENT -->
+    <!-- Pricing Section -->
+
+    <section id="pricing"
+      class="pricing-area bg-[#f4f4f4] min-h-screen flex flex-col items-center justify-center py-20 px-4"
+      data-id="template--18217805119545__pricing_area_4rUgKp">
+
+      <!-- Header Section () -->
+      <div class="text-center mb-10 w-full max-w-6xl mx-auto">
+        <p class="text-[#fca338] text-xs font-bold tracking-[0.2em] uppercase mb-1">.. Suxnix Plans ..</p>
+        <h1 class="heading-font text-4xl md:text-5xl font-bold text-[#111] uppercase tracking-wide">Supplement Packages
+        </h1>
+      </div>
+
+      <!-- Pricing Cards Container () -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full items-stretch justify-center mx-auto">
+
+        <!-- Package 1: Single Bottle -->
+        <div
+          class="bg-white rounded-md shadow-sm border border-gray-200 hover:border-[#FCA338] transition-all duration-300 flex flex-col items-center text-center transform hover:-translate-y-2 hover:shadow-xl cursor-pointer h-full pt-10 pb-6 px-6 relative">
+          <div class="absolute top-0 inset-x-0 h-8"></div>
+
+          <h3 class="text-sm font-bold text-gray-800 tracking-wide">1 BOTTLE OF</h3>
+          <h2 class="heading-font text-3xl font-bold text-black tracking-wide mb-1">SUXNIX</h2>
+          <p class="text-xs text-gray-600 font-medium mb-6">(1 X 250 Veggie Caps Bottle)</p>
+
+          <!-- Product Image Placeholder -->
+          <div class="h-44 flex items-center justify-center mb-6 relative w-full">
+            <img src="/assert/img/pricing_01.png" alt="image_51981.png" class="h-full object-contain drop-shadow-xl">
+          </div>
+
+          <!-- Pricing Info -->
+          <div class="mb-5 mt-auto">
+            <div class="group flex items-baseline justify-center">
+
+              <span class="text-3xl font-bold heading-font text-black group-hover:text-[#FAA432]">
+                $
+              </span>
+
+              <span class="text-5xl font-bold heading-font text-black group-hover:text-[#FAA432]">
+                69
+              </span>
+
+              <span class="text-xs text-gray-500 font-medium ml-1 text-left leading-3 group-hover:text-[#FAA432]">
+                Per<br>Bottle
+              </span>
+
+            </div>
+
+            <p class="text-xs text-gray-500 font-bold mt-1 group-hover:text-[#FAA432]">
+              ($69 TOTAL)
+            </p>
+          </div>
+
+          <!-- Savings & Shipping -->
+          <div class="mb-6">
+            <p class="text-[#fca338] text-xl font-extrabold uppercase tracking-wide">SAVE 14%</p>
+            <p class="text-[#fca338] text-sm font-medium mt-0.5">+ Free Shipping</p>
+          </div>
+
+          <!-- CTA Button -->
+          <button
+            class="group w-full bg-[#fca338] hover:bg-white text-white py-3 px-4 rounded transition-all duration-200 shadow-md border-2 border-[#fca338]">
+
+            <span class="block text-lg tracking-wider font-black heading-font group-hover:text-[#FCA338]">
+              BUY NOW
+            </span>
+
+            <span
+              class="block text-[9px] font-medium tracking-tight text-white/90 uppercase mt-0.5 group-hover:text-[#FCA338]">
+              365 Day Full Money Back Guaranteed
+            </span>
+
+          </button>
+        </div>
+
+        <!-- Package 2: Most Popular (Grey Badge) -->
+        <div
+          class="bg-white rounded-md shadow-sm border border-gray-200 hover:border-[#FCA338] transition-all duration-300 flex flex-col items-center text-center transform hover:-translate-y-2 hover:shadow-xl cursor-pointer h-full pt-10 pb-6 px-6 relative">
+          <!-- Top Grey Badge from Image -->
+          <div
+            class="absolute top-0 inset-x-0 bg-[#828282] text-white text-[11px] font-bold py-2 tracking-widest uppercase heading-font flex justify-center items-center gap-1">
+            ★ MOST POPULAR ★
+          </div>
+
+          <h3 class="text-sm font-bold text-gray-800 tracking-wide">1 BOTTLE OF</h3>
+          <h2 class="heading-font text-3xl font-bold text-black tracking-wide mb-1">SUXNIX</h2>
+          <p class="text-xs text-gray-600 font-medium mb-6">(1 X 250 Veggie Caps Bottle)</p>
+
+          <!-- Product Image Placeholder (3 Bottles stacked) -->
+          <div class="h-44 flex items-center justify-center mb-6 relative w-full px-4">
+            <img src="/assert/img/pricing_02.png" alt="image_51981.png"
+              class="h-full object-contain drop-shadow-2xl z-20">
+          </div>
+
+          <!-- Pricing Info -->
+          <div class="mb-5 mt-auto">
+            <div class="group flex items-baseline justify-center">
+
+              <span class="text-3xl font-bold heading-font text-black group-hover:text-[#FAA432]">
+                $
+              </span>
+
+              <span class="text-5xl font-bold heading-font text-black group-hover:text-[#FAA432]">
+                69
+              </span>
+
+              <span class="text-xs text-gray-500 font-medium ml-1 text-left leading-3 group-hover:text-[#FAA432]">
+                Per<br>Bottle
+              </span>
+
+            </div>
+
+            <p class="text-xs text-gray-500 font-bold mt-1 group-hover:text-[#FAA432]">
+              ($69 TOTAL)
+            </p>
+          </div>
+
+          <!-- Savings & Shipping -->
+          <div class="mb-6">
+            <p class="text-[#fca338] text-xl font-extrabold uppercase tracking-wide">SAVE 14%</p>
+            <p class="text-[#fca338] text-sm font-medium mt-0.5">+ Free Shipping</p>
+          </div>
+
+          <!-- CTA Button -->
+          <button
+            class="group w-full bg-[#fca338] hover:bg-white text-white py-3 px-4 rounded transition-all duration-200 shadow-md border-2 border-[#fca338]">
+
+            <span class="block text-lg tracking-wider font-black heading-font group-hover:text-[#FCA338]">
+              BUY NOW
+            </span>
+
+            <span
+              class="block text-[9px] font-medium tracking-tight text-white/90 uppercase mt-0.5 group-hover:text-[#FCA338]">
+              365 Day Full Money Back Guaranteed
+            </span>
+
+          </button>
+        </div>
+
+        <!-- Package 3: Best Value (Orange Border & Orange Badge) -->
+        <div
+          class="bg-white rounded-md shadow-sm border-2 border-[#fca338] flex flex-col items-center text-center relative overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer h-full pb-6 px-6 pt-14">
+          <!-- Top Orange Badge with Checkmark -->
+          <div
+            class="absolute top-0 inset-x-0 bg-[#fca338] text-white text-[11px] font-bold py-2 tracking-widest uppercase heading-font flex justify-center items-center gap-1">
+            ✓ BEST VALUE
+          </div>
+
+          <h3 class="text-sm font-bold text-gray-800 tracking-wide">1 BOTTLE OF</h3>
+          <h2 class="heading-font text-3xl font-bold text-black tracking-wide mb-1">SUXNIX</h2>
+          <p class="text-xs text-gray-600 font-medium mb-6">(1 X 250 Veggie Caps Bottle)</p>
+
+          <!-- Product Image Placeholder (6 Bottles row stack) -->
+          <div class="h-44 flex items-center justify-center mb-6 relative w-full">
+            <div class="flex items-end justify-center -space-x-8">
+              <img src="/assert/img/pricing_03.png" alt="image_51981.png"
+                class="h-40 object-contain z-10 drop-shadow-2xl">
+            </div>
+          </div>
+
+          <!-- Pricing Info -->
+          <div class="mb-5 mt-auto">
+            <div class="flex items-baseline justify-center text-[#fca338]">
+              <span class="text-3xl font-bold heading-font">$</span>
+              <span class="text-5xl font-bold heading-font">69</span>
+              <span class="text-xs text-gray-500 font-medium ml-1 text-left leading-3">Per<br>Bottle</span>
+            </div>
+            <p class="text-xs text-gray-500 font-bold mt-1">($69 TOTAL)</p>
+          </div>
+
+          <!-- Savings & Shipping -->
+          <div class="mb-6">
+            <p class="text-[#fca338] text-xl font-extrabold uppercase tracking-wide">SAVE 14%</p>
+            <p class="text-[#fca338] text-sm font-medium mt-0.5">+ Free Shipping</p>
+          </div>
+
+          <!-- CTA Button -->
+          <button
+            class="group w-full bg-[#fca338] hover:bg-white text-white py-3 px-4 rounded transition-all duration-200 shadow-md border-2 border-[#fca338]">
+
+            <span class="block text-lg tracking-wider font-black heading-font group-hover:text-[#FCA338]">
+              BUY NOW
+            </span>
+
+            <span
+              class="block text-[9px] font-medium tracking-tight text-white/90 uppercase mt-0.5 group-hover:text-[#FCA338]">
+              365 Day Full Money Back Guaranteed
+            </span>
+
+          </button>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Pricing Section -->
+    <!-- testimonial Area -->
+    <section class="relative overflow-hidden">
+
+      <!-- Background Image -->
+      <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438" alt=""
+          class="w-full h-full object-cover">
+
+        <!-- Dark Overlay -->
+        <div class="absolute inset-0 bg-black/75"></div>
+      </div>
+
+      <!-- Top Brush -->
+      <!-- <img src="/assert/img/testimonial_shape_top.png" alt="" class="absolute top-0 left-0 w-full z-20"> -->
+
+      <!-- Bottom Brush -->
+      <!-- <img src="/assert/img/testimonial_shape_bottom.png" alt="" class="absolute bottom-0 left-0 w-full z-20"> -->
+
+      <div class="container mx-auto px-4 relative z-10">
+
+        <div class="swiper mySwiper py-32">
+
+          <div class="swiper-wrapper">
+
+            <!-- Slide -->
+            <div class="swiper-slide">
+
+              <div class="max-w-4xl mx-auto text-center">
+
+                <!-- Stars -->
+                <div class="flex justify-center gap-1 mb-8">
+                  <i class="fa-solid fa-star text-[#fca338] text-xl"></i>
+                  <i class="fa-solid fa-star text-[#fca338] text-xl"></i>
+                  <i class="fa-solid fa-star text-[#fca338] text-xl"></i>
+                  <i class="fa-solid fa-star text-[#fca338] text-xl"></i>
+                  <i class="fa-solid fa-star text-[#fca338] text-xl"></i>
+                </div>
+
+                <!-- Content -->
+                <p class="text-white text-[20px] lg:text-[22px] font-semibold italic leading-[1.8] mb-12">
+                  Becoming more involved in administration within the
+                  (MidMichigan) health system over the years, I had been
+                  researching options for further education that would assist
+                  in this transition and fit my busy schedule.
+                </p>
+
+                <!-- Avatar -->
+                <div class="flex flex-col items-center">
+
+                  <img src="/assert/img/testi_avatar03.jpg"
+                    class="w-20 h-20 rounded-full border-4 border-white object-cover mb-4">
+
+                  <h5 class="text-white text-3xl font-black uppercase">
+                    Janeta Cooper
+                  </h5>
+
+                </div>
+
+              </div>
+
+            </div>
+            <!-- Slide 2 -->
+            <div class="swiper-slide">
+              <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+
+                <div class="flex gap-1 text-[#fca338] text-xl mb-6">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+
+                <p class="text-white text-xl font-semibold italic leading-relaxed mb-10">
+                  Becoming more involved in administration within the (MidMichigan)
+                  health system over the years, I had been researching options for
+                  further education that would assist in this transition and fit my
+                  busy schedule.
+                </p>
+
+                <div class="flex flex-col items-center">
+                  <img src="/assert/img/testi_avatar01.jpg"
+                    class="w-20 h-20 rounded-full object-cover border-4 border-white mb-4">
+
+                  <h5 class="text-white text-2xl font-bold uppercase">
+                    Lempor Kooper
+                  </h5>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide">
+              <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+
+                <div class="flex gap-1 text-[#fca338] text-xl mb-6">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+
+                <p class="text-white text-xl font-semibold italic leading-relaxed mb-10">
+                  Becoming more involved in administration within the (MidMichigan)
+                  health system over the years, I had been researching options for
+                  further education that would assist in this transition and fit my
+                  busy schedule.
+                </p>
+
+                <div class="flex flex-col items-center">
+                  <img src="/assert/img/testi_avatar02.jpg"
+                    class="w-20 h-20 rounded-full object-cover border-4 border-white mb-4">
+
+                  <h5 class="text-white text-2xl font-bold uppercase">
+                    Janeta Cooper
+                  </h5>
+                </div>
+
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <!-- Navigation -->
+          <div
+            class="swiper-button-prev !w-14 !h-14 !bg-green-900 hover:!bg-[#fca338] !rounded-full after:!text-white after:!text-xl">
+          </div>
+
+          <div
+            class="swiper-button-next !w-14 !h-14 !bg-green-900 hover:!bg-[#fca338] !rounded-full after:!text-white after:!text-xl">
+          </div>
+
+          <!-- Pagination -->
+          <div class="swiper-pagination mt-10"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+    <!-- END TESTIMONIAL -->
+    <!-- BLOG -->
+    <section class="py-24 bg-[#f7f7f7]">
+      <div class="max-w-7xl mx-auto px-4">
+
+        <div class="grid lg:grid-cols-2 gap-16">
+
+          <!-- LEFT SIDE : NEWS -->
+          <div>
+
+            <span class="text-[#fca338] uppercase tracking-[3px] text-sm font-semibold">
+              .. Suxnix News ..
+            </span>
+
+            <h2 class="text-5xl font-black uppercase text-[#0f172a] mt-4 mb-12">
+              Latest News
+            </h2>
+
+            <!-- News Item -->
+            <div class="flex gap-6 pb-8 mb-8 border-b border-gray-200">
+              <img src="/assert/img/inner_blog_thumb03.jpg" class="w-36 h-32 rounded-xl object-cover">
+
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-black text-lg">business</span>
+
+                  <span class="text-gray-500 text-sm">
+                    January 16, 2025
+                  </span>
+                </div>
+
+                <h3 class="text-2xl font-black uppercase text-[#0f172a] mb-4">
+                  Laboris nisi ut aliquip ex ea commodo...
+                </h3>
+
+                <div class="flex gap-5 text-sm">
+                  <span>
+                    Posted by -
+                    <span class="text-[#fca338]">Web Developer</span>
+                  </span>
+
+                  <span>✉ 0</span>
+                  <span>👁 k</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News Item -->
+            <div class="flex gap-6 pb-8 mb-8 border-b border-gray-200">
+              <img src="/assert/img/inner_blog_thumb02.jpg" class="w-36 h-32 rounded-xl object-cover">
+
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-black text-lg">business</span>
+
+                  <span class="text-gray-500 text-sm">
+                    January 16, 2025
+                  </span>
+                </div>
+
+                <h3 class="text-2xl font-black uppercase text-[#0f172a] mb-4">
+                  Adipisicing elit sed do eiusmod...
+                </h3>
+
+                <div class="flex gap-5 text-sm">
+                  <span>
+                    Posted by -
+                    <span class="text-[#fca338]">Web Developer</span>
+                  </span>
+
+                  <span>✉ 0</span>
+                  <span>👁 k</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- News Item -->
+            <div class="flex gap-6">
+              <img src="/assert/img/inner_blog_thumb01.jpg" class="w-36 h-32 rounded-xl object-cover">
+
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-black text-lg">design</span>
+
+                  <span class="text-gray-500 text-sm">
+                    January 16, 2025
+                  </span>
+                </div>
+
+                <h3 class="text-2xl font-black uppercase text-[#0f172a] mb-4">
+                  Lorem ipsum dolor sit amet...
+                </h3>
+
+                <div class="flex gap-5 text-sm">
+                  <span>
+                    Posted by -
+                    <span class="text-[#fca338]">Web Developer</span>
+                  </span>
+
+                  <span>✉ 0</span>
+                  <span>👁 k</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT SIDE : FAQ -->
+          <div>
+
+            <span class="text-[#fca338] uppercase tracking-[3px] text-sm font-semibold">
+              .. Common Questions ..
+            </span>
+
+            <h2 class="text-5xl font-black uppercase text-[#0f172a] mt-4 mb-12">
+              Frequently Asked Questions
+            </h2>
+
+            <div class="space-y-5">
+
+              <details class="border-b border-gray-200 pb-6 group">
+                <summary
+                  class="flex justify-between items-center cursor-pointer list-none font-black uppercase text-xl">
+                  <span>
+                    <span class="text-[#fca338]">01.</span>
+                    Suxnix ingredients provides a searchable ?
+                  </span>
+                  <span>⌄</span>
+                </summary>
+
+                <p class="mt-4 text-gray-600 leading-7">
+
+                  There are many variations of passages of lorem ipsum that available but the majority have alteration
+                  in some form by injected humour. There are many variations of passages.
+                  .
+                </p>
+              </details>
+
+              <details class="border-b border-gray-200 pb-6">
+                <summary
+                  class="flex justify-between items-center cursor-pointer list-none font-black uppercase text-xl">
+                  <span>
+                    <span class="text-[#fca338]">02.</span>
+                    How to edit Suxnix themes ?
+                  </span>
+                  <span>⌄</span>
+                </summary>
+                <p class="mt-4 text-gray-600 leading-7">
+
+                  There are many variations of passages of lorem ipsum that available but the majority have alteration
+                  in some form by injected humour. There are many variations of passages.
+                  .
+                </p>
+              </details>
+
+              <details class="border-b border-gray-200 pb-6">
+                <summary
+                  class="flex justify-between items-center cursor-pointer list-none font-black uppercase text-xl">
+                  <span>
+                    <span class="text-[#fca338]">03.</span>
+                    Suxnix app is a powerful application ?
+                  </span>
+                  <span>⌄</span>
+                </summary>
+                <p class="mt-4 text-gray-600 leading-7">
+
+                  There are many variations of passages of lorem ipsum that available but the majority have alteration
+                  in some form by injected humour. There are many variations of passages.
+                  .
+                </p>
+              </details>
+
+              <details class="border-b border-gray-200 pb-6">
+                <summary
+                  class="flex justify-between items-center cursor-pointer list-none font-black uppercase text-xl">
+                  <span>
+                    <span class="text-[#fca338]">04.</span>
+                    Latest version thorough suxnix powerful ?
+                  </span>
+                  <span>⌄</span>
+                </summary>
+                <p class="mt-4 text-gray-600 leading-7">
+
+                  There are many variations of passages of lorem ipsum that available but the majority have alteration
+                  in some form by injected humour. There are many variations of passages.
+                  .
+                </p>
+              </details>
+
+              <details class="border-b border-gray-200 pb-6">
+                <summary
+                  class="flex justify-between items-center cursor-pointer list-none font-black uppercase text-xl">
+                  <span>
+                    <span class="text-[#fca338]">05.</span>
+                    How to track my order ?
+                  </span>
+                  <span>⌄</span>
+                </summary>
+                <p class="mt-4 text-gray-600 leading-7">
+
+                  There are many variations of passages of lorem ipsum that available but the majority have alteration
+                  in some form by injected humour. There are many variations of passages.
+                  .
+                </p>
+              </details>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Blog -->
+    <div class="max-w-6xl mx-auto relative z-10 -mt-12 mb-[-100px]">
+
+      <div class="swiper instaSwiper overflow-hidden">
+
+        <div class="swiper-wrapper">
+
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery1.jpg" class="w-full h-full object-cover">
+
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery2.jpg" class="w-full h-full object-cover">
+
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery3.jpg" class="w-full h-full object-cover">
+          </div>
+
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery4.jpg" class="w-full h-full object-cover">
+          </div>
+
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery5.jpg" class="w-full h-full object-cover">
+          </div>
+
+          <!-- Duplicate Images -->
+          <!-- Duplicate 1 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery1.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <!-- Duplicate 2 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery2.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <!-- Duplicate 3 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery3.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <!-- Duplicate 4 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery4.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <!-- Duplicate 5 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery5.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+          <!-- Duplicate 6 -->
+          <div class="swiper-slide !w-[240px] h-[240px] group relative overflow-hidden">
+            <img src="/assert/img/gallery6.jpg" class="w-full h-full object-cover">
+            <div
+              class="absolute inset-0 bg-green-600/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-300">
+              <i class="fab fa-instagram text-white text-6xl"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer Section -->
+
+    <footer class="relative bg-black text-white overflow-hidden">
+
+      <!-- Top White Brush Shape -->
+      <!-- <div class="absolute top-0 left-0 w-full">
+        <img src="/assert/img/footer_shape.png" alt="" class="w-full">
+      </div> -->
+
+
+      <!-- Instagram Gallery -->
+
+
+      <!-- Footer Content -->
+      <div class="max-w-6xl mx-auto px-4 py-20 mt-[50px]">
+
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+
+          <!-- About -->
+          <div>
+            <div class="mb-8">
+              <img src="/assert/img/logo.png" alt="logo" class="h-12">
+            </div>
+
+            <p class="text-gray-400 leading-8 mb-8">
+              Making beauty especially relating complot especial common
+              questions tend to recur through posts or queries standards
+              vary orem donor command tei.
+            </p>
+
+            <div class="flex gap-3">
+              <a href="#"
+                class="w-12 h-12 rounded-full bg-[#161616] flex items-center justify-center hover:bg-[#fca338] transition">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+
+              <a href="#"
+                class="w-12 h-12 rounded-full bg-[#161616] flex items-center justify-center hover:bg-[#fca338] transition">
+                <i class="fab fa-twitter"></i>
+              </a>
+
+              <a href="#"
+                class="w-12 h-12 rounded-full bg-[#161616] flex items-center justify-center hover:bg-[#fca338] transition">
+                <i class="fab fa-pinterest-p"></i>
+              </a>
+
+              <a href="#"
+                class="w-12 h-12 rounded-full bg-[#161616] flex items-center justify-center hover:bg-[#fca338] transition">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- About Us -->
+          <div>
+            <h3 class="text-3xl font-bold uppercase mb-8">
+              About Us
+            </h3>
+
+            <ul class="space-y-5 text-gray-400">
+              <li><a href="#" class="hover:text-[#fca338]">Shop</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Contact</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Blogs</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Product</a></li>
+            </ul>
+          </div>
+
+          <!-- Support -->
+          <div>
+            <h3 class="text-3xl font-bold uppercase mb-8">
+              Support
+            </h3>
+
+            <ul class="space-y-5 text-gray-400">
+              <li><a href="#" class="hover:text-[#fca338]">Home</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Blogs</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Blog Post</a></li>
+              <li><a href="#" class="hover:text-[#fca338]">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h3 class="text-3xl font-bold uppercase mb-8">
+              Contact Us
+            </h3>
+
+            <p class="text-gray-400 mb-8 leading-8">
+              4140 Parker Rd. Allentown,
+              New Mexico 31134
+            </p>
+
+            <div class="space-y-5">
+
+              <div class="flex items-center gap-4">
+                <i class="fa-solid fa-phone text-[#00c853]"></i>
+                <span>+1 31-6555-0116</span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <i class="fa-solid fa-envelope text-[#00c853]"></i>
+                <span>Suxnix@example.com</span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <i class="fa-solid fa-globe text-[#00c853]"></i>
+                <span>www.suxnixdomain.com</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="border-t border-gray-800">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+
+          <p class="text-gray-400 text-center md:text-left">
+            Copyright © 2025 Suxnix All Rights Reserved.
+          </p>
+
+          <img src="/assert/img/payment-method.png" alt="payment" class="h-8">
+        </div>
+      </div>
+
+      <!-- Left Leaf -->
+      <img src="/assert/img/footer_leaf_left.png" class="absolute bottom-20 left-0 w-32 hidden lg:block">
+
+      <!-- Right Leaf -->
+      <img src="/assert/img/footer_leaf_right.png" class="absolute bottom-20 right-0 w-32 hidden lg:block">
+
+    </footer>
 
   </main>
 
-  <script>
-    const menuToggler = document.getElementById('menuToggler');
-    const navbarMenu = document.getElementById('navbarMenu');
-
-    // Toggle Mobile Main Navigation visibility
-    menuToggler.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navbarMenu.classList.toggle('hidden');
-    });
-
-    // Mobile Nested Dropdown Management Action Handler
-    document.querySelectorAll('.dropdown-parent').forEach(parent => {
-      const btn = parent.querySelector('.dropdown-toggle-btn');
-      const submenu = parent.querySelector('.submenu');
-      const arrow = parent.querySelector('.bi-chevron-down');
-
-      btn.addEventListener('click', (e) => {
-        if (window.innerWidth < 1280) { // Execute rules only under custom tailwind desktop breakpoint (1280px)
-          e.preventDefault();
-          e.stopPropagation();
-
-          // Close other open submenus if user clicks alternative dropdown list options
-          document.querySelectorAll('.submenu').forEach(sub => {
-            if (sub !== submenu) sub.classList.add('hidden');
-          });
-          document.querySelectorAll('.bi-chevron-down').forEach(arr => {
-            if (arr !== arrow) arr.classList.remove('rotate-180');
-          });
-
-          // Toggle selection state
-          submenu.classList.toggle('hidden');
-          arrow.classList.toggle('rotate-180');
-        }
-      });
-    });
-
-    // Close mobile drop layout instantly if user hits external blank viewport zones
-    document.addEventListener('click', () => {
-      if (window.innerWidth < 1280) {
-        navbarMenu.classList.add('hidden');
-        document.querySelectorAll('.submenu').forEach(sub => sub.classList.add('hidden'));
-        document.querySelectorAll('.bi-chevron-down').forEach(arr => arr.classList.remove('rotate-180'));
-      }
-    });
-
-
-  </script>
-
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+  <script src="javascript/script.js"></script>
 </body>
 
 </html>
