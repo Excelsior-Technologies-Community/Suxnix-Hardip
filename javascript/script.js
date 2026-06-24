@@ -192,3 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
       disableOnInteraction: false,
     },
   });
+
+  document.getElementById("scroll-to-top").addEventListener("click", function () {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth" // smooth scroll
+        });
+      });
+
+       
